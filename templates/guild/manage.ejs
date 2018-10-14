@@ -1,0 +1,47 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<%- include('../blocks/header', {bot, user, path}) %>
+<div class="container">
+	<div class="row justify-content-md-center">
+		<h2 style="color: #fff;">Sunucu Yönetimi</h2>
+	</div>
+	<div class="row">
+		<div class="col col-4">
+			<%- include('../blocks/guild-card', {guild}) %>
+		</div>
+		<div class="col">
+			<%- include('../blocks/guild-nav.ejs', {active: "manage", guild}) %>
+			<form method="post">
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item" style="background-color:grey; padding: 0;">
+            
+						<div class="input-group mb-2 mr-sm-2 mb-sm-0" style="width: 100%; margin: 0 !important;">
+              <div class="input-group-addon" style="width: 150px; text-align: center; margin: 5.5px; color: #ffffff; font-size: 15px;">Sunucu Prefixi</div>
+              <% if (bot.ayar.has(`prefix_${guild.id}`) === false) { %>
+								<input type="text" class="form-control" style="text-align: left;" name="onek" id="onek"
+									placeholder="Lütfen ayarlamak istediğiniz prefixi yazınız!">
+              <% } %>
+              
+							<% if(bot.ayar.has(`prefix_${guild.id}`) === true) { %>
+								<input type="text" class="form-control" style="text-align: left; border:2px solid #456879; border-radius:10px;" name="onek" id="onek" value="<%= bot.ayar.fetch(`prefix_${guild.id}`) %>"
+									placeholder="Lütfen ayarlamak istediğiniz prefixi yazınız!">
+              <% } %>
+						</div>
+            
+					</li>
+				</ul>
+          
+				<div style="width: 100%; text-align: right; margin-top: 20px;" >
+					<a class="btn btn-danger" data-toggle="modal" data-target="#settingsResetModal" role="button" style="color: #ffffff;">Ayarları Sıfırla<i aria-hidden="true"></i></a>
+					<button type="submit" class="btn btn-primary">Değişiklikleri Kaydet<i aria-hidden="true"></i></button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<% include ../blocks/guild-modals %>
+<script type="text/javascript">
+	var ts = parseInt($('#guildCreate').text());
+	$('#guildCreate').html(`<strong>Created:</strong>: ${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
+</script>
+<% include ../blocks/footer %>
